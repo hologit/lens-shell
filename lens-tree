@@ -14,6 +14,13 @@
   echo "Exporting input tree to scratch directory: ${INPUT_TREE}"
   git holo lens export-tree "${INPUT_TREE}"
 
+  _deps=()
+  for _dep in ${HOLOLENS_SHELL_DEPS//,/ }; do
+    _deps+=("${_dep}")
+  done
+
+  # TODO: generate a plan.sh to run or otherwise install deps and generate environment? Environment should have both PATH and pkg-exported envs
+
 
   # execute script
   echo
