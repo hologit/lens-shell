@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# redirect all output to stderr
+{
+  INPUT_TREE="${1?<input> required}"
+
+  if [ -z "${HOLOLENS_SHELL_SCRIPT}" ]; then
+    echo "hololens.shell.script required"
+    exit 1;
+  fi
+
+
+  # set up environment
+  echo "Exporting input tree to scratch directory: ${INPUT_TREE}"
+  git holo lens export-tree "${INPUT_TREE}"
+
+
+  # execute script
+  echo
+  echo "Running shell script}"
+  echo "${HOLOLENS_SHELL_SCRIPT}" | bash
+  script_status=$?
+
+  if [ $script_status -ne 0 ]; then
+    echo -e "\nShell scrpt failed with exit status ${script_status}"
+    exit ${script_status}
+  fi
+
+
+  # add output to git index
+  git add -f "."
+
+} 1>&2
+
+
+# output tree hash
+git write-tree
