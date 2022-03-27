@@ -17,7 +17,7 @@
 
   # execute script
   echo
-  echo "Running shell script}"
+  echo "Running shell script"
   echo "${HOLOLENS_SHELL_SCRIPT}" | bash
   script_status=$?
 
